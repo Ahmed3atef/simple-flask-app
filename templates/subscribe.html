@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if message %}
+    <h1> {{ message }} </h1>
+{% else %}
+    <form action="/join" method="post">
+        <select name="sport_id">
+            {% for sport_pair in list_sports %}
+            <option value="{{ sport_pair['id'] }}">
+                {{ sport_pair['sport'] }}
+            </option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit" />
+    </form>
+{% endif %}
+{% endblock body %}

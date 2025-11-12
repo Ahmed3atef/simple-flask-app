@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% with messages = get_flashed_messages(with_categories=False) %}
+{% if messages %}
+    <h2> {{ messages[0] }} </h2>
+{% else %}
+    {% if not is_logged %}
+        <h3> login </h3>
+        <form action="/" method="post">
+            <input type="email" name="email" placeholder="Enter your email">
+            <input type="submit"  value="Submit">
+        </form>
+    {% else %}
+        <a href="/logout">Logout</a>
+        <a href="/join">Join a team</a>
+        <h2>All subscriptions that you in:</h2>
+        <ul>
+            {% for record in subscriptions %}
+            <li>{{ record['name'] }} - {{ record['sport'] }}</li>
+            <form action="/leave" method="post">
+                <button type="submit" name="id" value="{{ record['id'] }}">Leave</button>
+            </form>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+{% endwith %}
+{% endblock body %}

@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h2> you are not in this class please join </h2>
+    <form action="/register" method="post">
+        <input type="email" name="email" placeholder="Enter your email">
+        <input type="text" name="name" placeholder="Enter your name">
+        <button type="submit" value="submit">submit</button>
+    </form>
+{% endblock body %}
