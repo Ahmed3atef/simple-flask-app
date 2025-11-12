@@ -95,3 +95,4 @@ def api():
 def logout():
     session.clear()
     return redirect("/")
+
