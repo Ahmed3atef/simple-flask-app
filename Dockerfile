@@ -1,38 +1,27 @@
 FROM python:3.14-alpine
 
-# Install build dependencies
-RUN apk add --no-cache gcc musl-dev python3-dev libffi-dev curl
-
 # Install uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# Add uv to PATH
-ENV PATH="/root/.local/bin:$PATH"
+RUN apk add --no-cache nano
 
-# Create non-root user
-RUN addgroup -S app && adduser -S -G app app
+RUN addgroup -S app && adduser -S app -G app app
+
+USER app
 
 WORKDIR /app
 
-# Copy dependency files first (better caching)
-COPY pyproject.toml uv.lock* ./
+# copy project dependencies files
+COPY pyproject.toml uv.lock ./
 
-# Install dependencies as root
-RUN uv sync --frozen
-
-# Copy application code
+# copy the app files
 COPY . .
 
-# Change ownership and switch to non-root user
-RUN chown -R app:app /app
-USER app
+RUN mkdir /app/data
 
-# Expose port
 EXPOSE 5000
 
-# Set Flask environment variables
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
-# Run with uv
 CMD ["uv", "run", "flask", "run"]

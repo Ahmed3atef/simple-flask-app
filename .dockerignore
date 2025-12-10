@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.git/
+.gitignore
+.vscode/
+flask_session/
+*.md
+LICENSE
+.pytest_cache/
+.coverage
+htmlcov/
